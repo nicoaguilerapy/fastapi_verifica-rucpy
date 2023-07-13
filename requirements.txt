@@ -1,0 +1,6 @@
+fastapi
+redis
+requests
+urllib3
+decouple
+uvicorn
