@@ -2,5 +2,5 @@ fastapi
 redis
 requests
 urllib3
-decouple
+python-decouple
 uvicorn
