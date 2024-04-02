@@ -32,7 +32,7 @@ def verificar_documento(documento: str):
         return JSONResponse(content=resultado_dict)
     else:
         headers = {
-            'Authorization': api_key  # Reemplaza api_key_XXXXXXX con tu API key válida
+            'Authorization': 'Bearer api_key_'+api_key  # Reemplaza api_key_XXXXXXX con tu API key válida
         }
         url = f'{api}/ruc/{documento}'
         response = requests.post(url, headers=headers)
@@ -46,11 +46,40 @@ def verificar_documento(documento: str):
             error_response = {
                 "success": False,
                 "result": {
-                    "respuesta_codigo": "000",
+                    "respuesta_codigo": "999",
                     "respuesta_mensaje": "Servidor SIFEN no responde"
                 }
             }
             return JSONResponse(content=error_response)
+        
+@app.get("/test")
+def test_endpoint():
+    headers = {
+        'Authorization': 'Bearer api_key_'+api_key  # Reemplaza api_key_XXXXXXX con tu API key válida
+    }
+    url = f'{api}/test'
+    response = requests.get(url, headers=headers)
+    print(url)
+    print(headers)
+    print(response.status_code)
+    if response.status_code == 200:
+        resultado_json = {
+                "success": True,
+                "result": {
+                    "respuesta_mensaje": response.text
+                }
+        }
+        return JSONResponse(content=resultado_json)
+    else:
+        error_response = {
+                "success": False,
+                "result": {
+                    "respuesta_codigo": "999",
+                    "respuesta_mensaje": "Servidor SIFEN no responde"
+                }
+            }
+        return JSONResponse(content=error_response)
+
         
 if __name__ == "__main__":
     if config("DEPLOY") == "N":
