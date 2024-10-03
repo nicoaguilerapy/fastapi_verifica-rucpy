@@ -24,7 +24,10 @@ def verificar_documento(documento: str):
             "respuesta_mensaje": "Servidor SIFEN no responde",
         }
     }
-
+    
+    if not os.path.exists(P12_FOLDER):
+            os.makedirs(P12_FOLDER)
+            
     try:
         p12_file_path = os.path.join(P12_FOLDER, "file.p12")
         if not os.path.exists(p12_file_path):
